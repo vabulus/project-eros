@@ -1,0 +1,42 @@
+# Keep environment variables out of version control
+.env
+
+# Node.js dependencies
+/node_modules
+
+# Built files
+/build
+/dist
+
+# Environment configuration files
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Prisma-generated files
+/prisma/client
+/prisma/migration
+/prisma/schema.prisma
+
+# WebStorm IDE files
+.idea
+
+# User-specific WebStorm settings
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/languages.xml
+.idea/dictionaries
+.idea/jsLibraryMappings.xml
+.idea/modules.xml
+.idea/.name
+.idea/.gitignore
+.idea/.idea_modules
+.idea/.idea.vcs.xml
+.idea/.editorconfig
+.idea/.tmlanguage
+.idea/.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
