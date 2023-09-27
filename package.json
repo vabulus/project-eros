@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node server/app.ts"
+    "start:server": "ts-node server/src/app.ts",
+    "start:client": "cd client && npm start"
   },
   "keywords": [],
   "author": "",

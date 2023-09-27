@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextFunction, Request, Response } from "express";
 import createError from "http-errors";
 
@@ -8,8 +7,6 @@ import {
   login_user,
 } from "../services/authServices";
 import { sign_access_token } from "../utils/jwt";
-
-const prisma = new PrismaClient();
 
 export default class AuthController {
   static register = async (req: Request, res: Response, next: NextFunction) => {
@@ -24,9 +21,7 @@ export default class AuthController {
         });
         return;
       }
-
-      const user = await create_user(username, email, password);
-
+      await create_user(username, email, password);
       if (req.body) {
         req.body.accessToken = sign_access_token(req.body);
       }
@@ -48,7 +43,17 @@ export default class AuthController {
         message: "Login worked!",
       });
     } catch (e) {
-      next(createError(500, "An unknown error occurred."));
+      if (createError.isHttpError(e) && e.statusCode === 401) {
+        res.status(401).json({
+          status: false,
+          message: "Unauthorized!",
+        });
+
+        console.log("here");
+        return;
+      } else {
+        console.error("Caught an unexpected error:", e);
+      }
     }
   };
 
