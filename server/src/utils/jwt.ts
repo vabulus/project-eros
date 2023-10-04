@@ -1,5 +1,6 @@
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
+import jwt_decode from "jwt-decode";
 
 import { SECRET_KEY } from "../config";
 
@@ -28,4 +29,7 @@ export function verify_access_token(access_token: string) {
     }
     return access_token;
   });
+}
+export function decrypt_access_token(access_token: string){
+  return jwt_decode(access_token);
 }
