@@ -5,10 +5,11 @@ import { auth } from "../middleware/auth";
 
 const router = express.Router();
 
-router.get("/", auth, AuthController.all);
+router.get("/", AuthController.all);
 router.post("/login", AuthController.login);
 router.post("/register", AuthController.register);
-
-router.get("/profile", auth);
+router.get("/profile", AuthController.profile);
+router.post("/profile", AuthController.profile);
+router.post("/logout", AuthController.logout);
 
 export default router;
