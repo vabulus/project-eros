@@ -14,8 +14,10 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     verify_access_token(access_token);
-    next();
+    console.log("access token is valid")
   } catch (e) {
     next(createError.Unauthorized(""));
   }
+
+  return "";
 };
