@@ -64,6 +64,6 @@ export async function login_user(email: string, password: string) {
 
   return {
     email: user.email,
-    username: user.password,
+    username: user.username,
   };
 }
