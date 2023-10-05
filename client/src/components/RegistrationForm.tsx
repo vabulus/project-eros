@@ -1,7 +1,17 @@
 import axios from "axios"; // If you're in a Node.js or CommonJS environment
 import React, { useState } from "react";
+import {useProfileRedirect} from "../hooks/useProfileRedirect";
+
 
 export function RegistrationForm() {
+
+  const { loading, data } = useProfileRedirect();
+
+  if (data){
+    window.location.href = "/profile"
+  }
+
+
   interface AxiosResponse {
     response?: {
       status: number;
@@ -34,7 +44,7 @@ export function RegistrationForm() {
     let response = undefined;
     try {
       response = await axios.post(
-        "http://192.168.88.89:3001/api/register",
+        "http://localhost:3001/api/register",
         formData,
         {
           headers: {
@@ -46,7 +56,7 @@ export function RegistrationForm() {
 
       alert(data);
       if (data.token) {
-        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("token", data.token);
         window.location.href = "/dashboard";
       }
     } catch (error) {

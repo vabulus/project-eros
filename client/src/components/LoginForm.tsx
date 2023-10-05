@@ -1,7 +1,14 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import {useProfileRedirect} from "../hooks/useProfileRedirect";
 
 export function LoginForm() {
+  const { loading, data } = useProfileRedirect();
+
+  if (data){
+    window.location.href = "/profile"
+  }
+
   interface AxiosResponse {
     response?: {
       status: number;
@@ -31,7 +38,7 @@ export function LoginForm() {
     let response = undefined;
     try {
       response = await axios.post(
-        "http://192.168.88.89:3001/api/login",
+        "http://localhost:3001/api/login",
         formData,
         {
           headers: {
@@ -39,11 +46,14 @@ export function LoginForm() {
           },
         }
       );
+
       const data = response.data;
-      if (data.accessToken) {
-        localStorage.setItem("authToken", data.token);
-        window.location.href = "/dashboard";
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/profile";
       }
+
     } catch (error) {
       // username taken or email
       const axiosError = error as AxiosResponse;
@@ -149,5 +159,4 @@ export function LoginForm() {
     </>
   );
 }
-
 export default LoginForm;
