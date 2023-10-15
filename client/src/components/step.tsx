@@ -31,15 +31,16 @@ const Step: FC<StepProps> = ({ label, value, onChange, questionsHelp }) => {
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
             />
             <div className="mb-2">
-                {questionsHelp && questionsHelp.map(({id, text, questionId}) => (
+                { questionsHelp && questionsHelp.map(({ id, text, questionId }) => (
                     <button
-                        key={questionId}
+                        key={id}
                         className="text-sm px-2 py-1 mr-1 border rounded-md p-5 m-1"
                         onClick={() => handleButtonClick(text)}
                     >
                         {text}
                     </button>
                 ))}
+
 
             </div>
         </div>
