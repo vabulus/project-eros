@@ -31,13 +31,12 @@ type Template = {
     id: number;
     name: string;
     description: string;
-    Question: [
-        {
-            text: string;
-            text_short: string;
-            QuestionHelp: QuestionHelp
-        },
-    ]
+    Question: Array<{
+        text: string;
+        text_short: string;
+        QuestionHelp: QuestionHelp
+    }>,
+    QuestionHelp: Array<QuestionHelp>
 }
 
 const MultiStepForm2: FC = () => {
@@ -67,7 +66,7 @@ const MultiStepForm2: FC = () => {
                         }
                     }
                 );
-                const templateData = response.data;
+                const templateData: Template = response.data;
                 if (templateData && templateData.Question) {
                     const newQuestionsShort: string[] = [];
                     const newQuestionsFull: string[] = [];
