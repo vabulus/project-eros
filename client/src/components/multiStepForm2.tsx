@@ -83,9 +83,6 @@ const MultiStepForm2: FC = () => {
                     setQuestionsShort(newQuestionsShort);
                     setQuestionsFull(newQuestionsFull);
                     setQuestionHelps(newQuestionHelps);
-
-                    alert(JSON.stringify(newQuestionHelps[0]))
-
                     setIsLoading(false);
                 }
             } catch (error) {
@@ -203,7 +200,7 @@ px-3 py-1 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rou
                             label={questionsFull[step - 1]}
                             value={formData[`step${step}`] || ''}
                             onChange={handleChange}
-                            questionsHelp={questionHelps[step - 1]}
+                            questionsHelp={questionHelps[(step - 1)]}
                         />
                     )}
                 </div>
