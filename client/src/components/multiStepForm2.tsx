@@ -31,13 +31,12 @@ type Template = {
     id: number;
     name: string;
     description: string;
-    Question: [
-        {
-            text: string;
-            text_short: string;
-            QuestionHelp: QuestionHelp
-        },
-    ]
+    Question: Array<{
+        text: string;
+        text_short: string;
+        QuestionHelp: QuestionHelp
+    }>,
+    QuestionHelp: Array<QuestionHelp>
 }
 
 const MultiStepForm2: FC = () => {
@@ -48,7 +47,7 @@ const MultiStepForm2: FC = () => {
 
     const [questionsShort, setQuestionsShort] = useState<string[]>([]);
     const [questionsFull, setQuestionsFull] = useState<string[]>([]);
-    const [questionHelps, setQuestionHelps] = useState<QuestionHelp[]>([]);
+    const [questionHelps, setQuestionHelps] = useState<QuestionHelp[][]>([]);
 
 
 
@@ -67,12 +66,12 @@ const MultiStepForm2: FC = () => {
                         }
                     }
                 );
-                const templateData = response.data;
+                const templateData: Template = response.data;
                 if (templateData && templateData.Question) {
                     const newQuestionsShort: string[] = [];
                     const newQuestionsFull: string[] = [];
 
-                    const newQuestionHelps: QuestionHelp[] = [];
+                    const newQuestionHelps: QuestionHelp[][] = [];
 
                     templateData.Question.forEach((question: any) => {
                         newQuestionsFull.push(question.text);
@@ -204,7 +203,7 @@ px-3 py-1 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rou
                             label={questionsFull[step - 1]}
                             value={formData[`step${step}`] || ''}
                             onChange={handleChange}
-                            questionsHelp={questionHelps}
+                            questionsHelp={questionHelps[step - 1]}
                         />
                     )}
                 </div>
