@@ -6,7 +6,8 @@
   "scripts": {
     "start:server": "ts-node server/src/app.ts",
     "start:client": "cd client && npm start",
-    "start:both": "ts-node server/src/app.ts & cd client && npm start"
+    "start:both": "ts-node server/src/app.ts & cd client && npm start",
+    "start:seed": "ts-node prisma/seedDatabase.ts"
   },
   "keywords": [],
   "author": "",
