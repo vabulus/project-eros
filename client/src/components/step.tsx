@@ -1,10 +1,16 @@
 import React, { FC, ChangeEvent } from 'react';
 
+type QuestionHelp = {
+    id: number;
+    text: string;
+    questionId: number;
+};
+
 interface StepProps {
     label: string;
     value: string;
     onChange: (value: string) => void;
-    questionsHelp: string[];
+    questionsHelp: QuestionHelp[];
 }
 
 const Step: FC<StepProps> = ({ label, value, onChange, questionsHelp }) => {
@@ -25,15 +31,16 @@ const Step: FC<StepProps> = ({ label, value, onChange, questionsHelp }) => {
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e.target.value)}
             />
             <div className="mb-2">
-                {questionsHelp.map((question, index) => (
+                {questionsHelp && questionsHelp.map(({id, text, questionId}) => (
                     <button
-                        key={index}
+                        key={questionId}
                         className="text-sm px-2 py-1 mr-1 border rounded-md p-5 m-1"
-                        onClick={() => handleButtonClick(question)}
+                        onClick={() => handleButtonClick(text)}
                     >
-                        {question}
+                        {text}
                     </button>
                 ))}
+
             </div>
         </div>
     );
