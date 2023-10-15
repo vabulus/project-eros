@@ -42,16 +42,16 @@ async function main() {
                         text_short: "Gefühle",
                         QuestionHelp: {
                             create: [
-                                { text: "Missverständnisse" },
-                                { text: "Eifersucht" },
-                                { text: "Finanzielle Probleme" },
-                                { text: "Unterschiedliche Meinungen" },
-                                { text: "Mangelnde Kommunikation" },
-                                { text: "Kulturelle Unterschiede" },
-                                { text: "Vergangene Verletzungen" },
-                                { text: "Unausgesprochene Erwartungen" },
-                                { text: "Unterschiedliche Werte und Prioritäten" },
-                                { text: "Mangelnder Respekt" }
+                                { text: "f" },
+                                { text: "a" },
+                                { text: "a Probleme" },
+                                { text: "d Meinungen" },
+                                { text: "d Kommunikation" },
+                                { text: "c Unterschiede" },
+                                { text: "v Verletzungen" },
+                                { text: "a Erwartungen" },
+                                { text: "d Werte und Prioritäten" },
+                                { text: "f Respekt" }
                             ]
                         }
                     },
@@ -60,50 +60,6 @@ async function main() {
         },
     });
 
-
-
-    // Assuming PrismaClient and other required imports are already in the file
-    // type AnswerMap = {
-    //     [key: string]: string;
-    // };
-    //
-    // const aliceAnswers: AnswerMap = {
-    //     "Was war der A für den Streit?": "We had a disagreement about chores.",
-    //     "Wie habe ich mich während des Streits gefühlt?": "I felt frustrated and unheard.",
-    // };
-    //
-    // const alice = await prisma.user.findUnique({
-    //     where: { email: "alice@example.com" }
-    // });
-    //
-    // if (alice) {
-    //     // Retrieve the Fight Template by name and its associated questions
-    //     const fightTemplate = await prisma.template.findFirst({
-    //         where: { name: "Fight Template" },
-    //         include: { Question: true }
-    //     });
-    //
-    //     if (fightTemplate) {
-    //         const loveLog = await prisma.loveLog.create({
-    //             data: {
-    //                 author: { connect: { id: alice.id } },
-    //                 template: { connect: { id: fightTemplate.id } },
-    //                 answers: {
-    //                     create: fightTemplate.Question.filter(question => aliceAnswers[question.text as keyof typeof aliceAnswers] !== undefined).map(question => ({
-    //                         response: aliceAnswers[question.text as keyof typeof aliceAnswers],
-    //                         question: { connect: { id: question.id } }
-    //                     }))
-    //                 }
-    //             },
-    //             include: { answers: true }
-    //         });
-    //         console.log("LoveLog with answers created:", loveLog);
-    //     } else {
-    //         console.error("Fight Template not found!");
-    //     }
-    // } else {
-    //     console.error("User Alice not found!");
-    // }
 
 
 }
