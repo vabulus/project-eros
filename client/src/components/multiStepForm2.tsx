@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useEffect } from 'react';
 import Step from '../components/step';
 import {
     ArrowLeftIcon,
@@ -6,9 +6,38 @@ import {
     CheckIcon
 } from "@heroicons/react/20/solid";
 import Dashboard from "./dashboard";
+import axios from "axios";
 
 interface FormData {
     [key: string]: string;
+}
+
+interface AxiosResponse {
+    response?: {
+        status: number;
+        data: any;
+    };
+    message: string;
+}
+
+type QuestionHelp = {
+    id: number;
+    text: string;
+    questionID: number;
+};
+
+
+type Template = {
+    id: number;
+    name: string;
+    description: string;
+    Question: [
+        {
+            text: string;
+            text_short: string;
+            QuestionHelp: QuestionHelp
+        },
+    ]
 }
 
 const MultiStepForm2: FC = () => {
@@ -17,41 +46,68 @@ const MultiStepForm2: FC = () => {
     const [selectedStep, setSelectedStep] = useState<number>(1);
     const [showMissingStepsModal, setShowMissingStepsModal] = useState<boolean>(false); // State for modal
 
-    const questions_short = [
-        "Auslöser",
-        "Gefühle",
-        "Wünsche",
-        "Wünsche vom Anderen",
-        "Lerneffekt",
-        "Vermeidung"
-    ];
-    const questions_full = [
-        "Was war der Auslöser für den Streit?",
-        "Wie habe ich mich während des Streits gefühlt?",
-        "Was wünsche ich mir von der anderen Person?",
-        "Was denke ich, dass die andere Person sich von mir wünscht?",
-        "Was konnte ich aus dem Streit lernen?",
-        "Was könnten wir in Zukunft tun, um solche Streits zu vermeiden?"
-    ];
-    const questions_help = [
-        "Missverständnisse",
-        "Eifersucht",
-        "Finanzielle Probleme",
-        "Unterschiedliche Meinungen",
-        "Mangelnde Kommunikation",
-        "Kulturelle Unterschiede",
-        "Vergangene Verletzungen",
-        "Unausgesprochene Erwartungen",
-        "Unterschiedliche Werte und Prioritäten",
-        "Mangelnder Respekt"
-    ];
+    const [questionsShort, setQuestionsShort] = useState<string[]>([]);
+    const [questionsFull, setQuestionsFull] = useState<string[]>([]);
+    const [questionHelps, setQuestionHelps] = useState<QuestionHelp[]>();
+
+
+
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    // const questionHelps: { [key: string]: string[] } = {};
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3001/api/get-template",
+                    {
+                        params: {
+                            templateID: 1
+                        }
+                    }
+                );
+                const templateData = response.data;
+                if (templateData && templateData.Question) {
+                    const newQuestionsShort: string[] = [];
+                    const newQuestionsFull: string[] = [];
+
+                    const newQuestionHelps: QuestionHelp[] = [];
+
+                    templateData.Question.forEach((question: any) => {
+                        newQuestionsFull.push(question.text);
+                        newQuestionsShort.push(question.text_short);
+                        newQuestionHelps.push(question.QuestionHelp);
+
+                    });
+
+                    setQuestionsShort(newQuestionsShort);
+                    setQuestionsFull(newQuestionsFull);
+                    setQuestionHelps(newQuestionHelps);
+
+                    alert(JSON.stringify(newQuestionHelps[0]))
+
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                const axiosError = error as AxiosResponse;
+                if (axiosError.response) {
+                    alert(axiosError.response.data.message);
+                } else {
+                    console.error("An unknown error occurred:", axiosError.message);
+                }
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleNext = () => {
-        if (step < questions_full.length) {
+        if (step < questionsFull.length) {
             setStep(step + 1);
         } else {
             // Check for missing steps
-            const missingSteps = questions_full.filter((_, index) => !formData[`step${index + 1}`]);
+            const missingSteps = questionsFull.filter((_, index) => !formData[`step${index + 1}`]);
 
             if (missingSteps.length > 0) {
                 // Show the missing steps modal
@@ -63,8 +119,9 @@ const MultiStepForm2: FC = () => {
         }
     };
 
+
     const handleBack = () => {
-        if (questions_full.length > 1 && step > 1) {
+        if (questionsFull.length > 1 && step > 1) {
             setStep(step - 1);
         }
     };
@@ -79,7 +136,7 @@ const MultiStepForm2: FC = () => {
 
     const handleStepClick = (stepNumber: number) => {
         setStep(stepNumber);
-        setSelectedStep(stepNumber); // Update the selected step
+        setSelectedStep(stepNumber);
     };
 
     return (
@@ -92,7 +149,7 @@ const MultiStepForm2: FC = () => {
                     {/* Vertical Stepper */}
                     <div className="space-y-2">
                         <h3 className="text-lg font-bold mb-5 mt-1 ">Fragen</h3>
-                        {questions_short.map((q, index) => (
+                        {questionsShort.map((q, index) => (
                             <div
                                 key={index}
                                 className={`flex items-center p-1 text-sm font-semibold cursor-pointer ${
@@ -127,11 +184,11 @@ const MultiStepForm2: FC = () => {
                         <button
                             className={`flex items-c2:05 PM
 px-3 py-1 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded
-                ${step === questions_full.length ? 'bg-green-500 hover:bg-green-600' : ''}`}
+                ${step === questionsFull.length ? 'bg-green-500 hover:bg-green-600' : ''}`}
                             onClick={handleNext}
                         >
-                            {step < questions_full.length ? 'Next' : 'Submit'}
-                            {step < questions_full.length ? (
+                            {step < questionsFull.length ? 'Next' : 'Submit'}
+                            {step < questionsFull.length ? (
                                 <ArrowRightIcon className="w-5 h-5 ml-1" />
                             ) : (
                                 <CheckIcon className="w-5 h-5 ml-1" />
@@ -141,12 +198,13 @@ px-3 py-1 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rou
                 </div>
 
                 <div className="flex-grow p-4 bg-white rounded shadow-md overflow-auto">
-                    {questions_full && (
+
+                    {questionsFull && (
                         <Step
-                            label={questions_full[step - 1]}
+                            label={questionsFull[step - 1]}
                             value={formData[`step${step}`] || ''}
                             onChange={handleChange}
-                            questionsHelp={questions_help}
+                            questionsHelp={questionHelps }
                         />
                     )}
                 </div>
@@ -180,12 +238,11 @@ px-3 py-1 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rou
                                             </svg>
                                         </div>
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                            {/* Your existing text */}
                                             <h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title">
-                                                You missed some steps:
+                                                Missed questions:
                                             </h3>
                                             <ul>
-                                                {questions_full.map((_, index) => (
+                                                {questionsFull.map((_, index) => (
                                                     !formData[`step${index + 1}`] && (
                                                         <li key={index}>
                                                             <a
