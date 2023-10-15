@@ -23,7 +23,7 @@ interface AxiosResponse {
 type QuestionHelp = {
     id: number;
     text: string;
-    questionID: number;
+    questionId: number;
 };
 
 
@@ -48,7 +48,7 @@ const MultiStepForm2: FC = () => {
 
     const [questionsShort, setQuestionsShort] = useState<string[]>([]);
     const [questionsFull, setQuestionsFull] = useState<string[]>([]);
-    const [questionHelps, setQuestionHelps] = useState<QuestionHelp[]>();
+    const [questionHelps, setQuestionHelps] = useState<QuestionHelp[]>([]);
 
 
 
@@ -204,7 +204,7 @@ px-3 py-1 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rou
                             label={questionsFull[step - 1]}
                             value={formData[`step${step}`] || ''}
                             onChange={handleChange}
-                            questionsHelp={questionHelps }
+                            questionsHelp={questionHelps}
                         />
                     )}
                 </div>
