@@ -1,16 +1,13 @@
 import axios from "axios"; // If you're in a Node.js or CommonJS environment
 import React, { useState } from "react";
-import {useProfileRedirect} from "../hooks/useProfileRedirect";
-
+import { useProfileRedirect } from "../hooks/useProfileRedirect";
 
 export function RegistrationForm() {
-
   const { loading, data } = useProfileRedirect();
 
-  if (data){
-    window.location.href = "/profile"
+  if (data) {
+    window.location.href = "/profile";
   }
-
 
   interface AxiosResponse {
     response?: {

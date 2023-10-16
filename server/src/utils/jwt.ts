@@ -30,6 +30,6 @@ export function verify_access_token(access_token: string) {
     return access_token;
   });
 }
-export function decrypt_access_token(access_token: string){
+export function decrypt_access_token(access_token: string) {
   return jwt_decode(access_token);
 }

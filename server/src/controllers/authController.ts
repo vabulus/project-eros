@@ -6,9 +6,12 @@ import {
   create_user,
   login_user,
 } from "../services/authServices";
-import {decrypt_access_token, sign_access_token, verify_access_token} from "../utils/jwt";
-import {get_user_details} from "../userProfileServices";
-
+import {
+  decrypt_access_token,
+  sign_access_token,
+  verify_access_token,
+} from "../utils/jwt";
+import { get_user_details } from "../userProfileServices";
 
 export default class AuthController {
   static register = async (req: Request, res: Response, next: NextFunction) => {
@@ -62,40 +65,42 @@ export default class AuthController {
     } catch (e) {}
   };
 
-
   static profile = async (req: Request, res: Response, next: NextFunction) => {
     // already checked if user token is valid, through middleware
 
-      if(req.headers.authorization){
-        type UserJwtType = { username: string; email: string };
+    if (req.headers.authorization) {
+      type UserJwtType = { username: string; email: string };
 
-        let user_details = undefined;
+      let user_details = undefined;
 
-        try{
-          const user_jwt: UserJwtType = decrypt_access_token(req.headers.authorization) as UserJwtType;
-          user_details = await get_user_details(user_jwt.username, user_jwt.email);
-        }
-        catch (e){
-          return res.status(401).json({
-            status: false,
-            message: "Unauthorized"
-          });
-        }
-
-        if(user_details){
-          return res.status(200).json({
-            status: true,
-            user_details: user_details
-          })
-        }
+      try {
+        const user_jwt: UserJwtType = decrypt_access_token(
+          req.headers.authorization
+        ) as UserJwtType;
+        user_details = await get_user_details(
+          user_jwt.username,
+          user_jwt.email
+        );
+      } catch (e) {
+        return res.status(401).json({
+          status: false,
+          message: "Unauthorized",
+        });
       }
-  }
+
+      if (user_details) {
+        return res.status(200).json({
+          status: true,
+          user_details: user_details,
+        });
+      }
+    }
+  };
 
   static logout = async (req: Request, res: Response, next: NextFunction) => {
     res.status(200).send({
       status: true,
-      message: 'Logged out successfully'
+      message: "Logged out successfully",
     });
-
-  }
+  };
 }
