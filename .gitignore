@@ -16,8 +16,7 @@
 
 # Prisma-generated files
 /prisma/client
-/prisma/migration
-/prisma/schema.prisma
+/prisma/migrations
 
 # WebStorm IDE files
 .idea
