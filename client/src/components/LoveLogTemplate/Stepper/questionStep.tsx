@@ -1,4 +1,5 @@
 import React, { FC, ChangeEvent } from "react";
+import {LoveLogProvider} from "../../LoveLog";
 
 type QuestionHelp = {
   id: number;
@@ -13,13 +14,14 @@ interface StepProps {
   questionsHelp: QuestionHelp[];
 }
 
-const Step: FC<StepProps> = ({ label, value, onChange, questionsHelp }) => {
+const QuestionStep: FC<StepProps> = ({ label, value, onChange, questionsHelp}) => {
   const handleButtonClick = (buttonValue: string) => {
     const newValue = value ? `${value}, ${buttonValue}` : buttonValue;
     onChange(newValue);
   };
 
   return (
+    <LoveLogProvider>
     <div>
       <h3 className="text-3xl font-bold mb-5">{label}</h3>
       <textarea
@@ -44,7 +46,8 @@ const Step: FC<StepProps> = ({ label, value, onChange, questionsHelp }) => {
           ))}
       </div>
     </div>
+    </LoveLogProvider>
   );
 };
 
-export default Step;
+export default QuestionStep;

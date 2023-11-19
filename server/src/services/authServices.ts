@@ -24,6 +24,20 @@ export async function check_user_existence(_username: string, _email: string) {
   return null;
 }
 
+export async function getUserIdByEmail(_email: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: _email,
+    },
+  });
+
+  if (!user) {
+    throw createError.Unauthorized("Invalid credentials");
+  }
+
+  return user.id;
+}
+
 export async function create_user(
   username: string,
   email: string,

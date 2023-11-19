@@ -4,6 +4,15 @@ import jwt_decode from "jwt-decode";
 
 import { SECRET_KEY } from "../config";
 
+type jwtPayload = {
+  username: string;
+  email: string;
+  password: string;
+  iat: number;
+  exp: number;
+}
+
+
 export function sign_access_token(payload: any) {
   try {
     if (SECRET_KEY) {
@@ -30,6 +39,6 @@ export function verify_access_token(access_token: string) {
     return access_token;
   });
 }
-export function decrypt_access_token(access_token: string) {
+export function decrypt_access_token(access_token: string) : jwtPayload {
   return jwt_decode(access_token);
 }

@@ -3,13 +3,15 @@ import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useProfileRedirect } from "../hooks/useProfileRedirect";
 import { useEffect } from "react";
+import { useNavigate} from "react-router-dom";
 
 export function Profile() {
   const { loading, data, authStatus } = useProfileRedirect();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && authStatus === "unauthenticated") {
-      window.location.href = "/login";
+      navigate("/login");
     }
   });
 

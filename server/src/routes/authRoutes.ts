@@ -13,8 +13,4 @@ router.get("/profile", AuthController.profile);
 router.post("/profile", AuthController.profile);
 router.post("/logout", AuthController.logout);
 
-router.get("/get-template", LoveLogController.getLoveLogTemplate);
-router.get("/new-lovelog", LoveLogController.createLoveLog);
-router.get("/get-lovelog", LoveLogController.getLoveLog);
-
 export default router;

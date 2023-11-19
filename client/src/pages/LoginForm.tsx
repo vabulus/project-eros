@@ -2,11 +2,21 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useProfileRedirect } from "../hooks/useProfileRedirect";
 
+import {useNavigate} from "react-router-dom";
+
+
+
 export function LoginForm() {
   const { loading, data } = useProfileRedirect();
 
+  // redirect to a other page if the user is logged in
+
+
+  const navigate = useNavigate();
+
+
   if (data) {
-    window.location.href = "/profile";
+    navigate("/profile");
   }
 
   interface AxiosResponse {

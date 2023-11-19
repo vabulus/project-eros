@@ -9,14 +9,23 @@ import Dashboard from "./components/dashboard";
 
 import "./styles/index.css";
 import "./styles/App.css";
-import MultiStepForm2 from "./components/multiStepForm2";
+import LoveLog, {LoveLogProvider} from "./components/LoveLog";
+import LoveLogsOverview from "./pages/LoveLogsOverview";
 
 const App: React.FC = () => {
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/2" element={<MultiStepForm2 />} />
+
+          <Route path="/" element={
+            <LoveLogProvider>
+              <LoveLog />
+            </LoveLogProvider>
+          } />
+
+          <Route path="/overview" element={<LoveLogsOverview />} />
+
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginForm />} />
