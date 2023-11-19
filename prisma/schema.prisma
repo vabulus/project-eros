@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  username String? @unique
+  password String?
+
+  // Relations
+  LoveLog LoveLog[]
+}
+
+model LoveLog {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  // Relations
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   Int
+  template   Template @relation(fields: [templateId], references: [id])
+  templateId Int
+  answers    Answer[]
+
+  @@index([authorId])
+}
+
+model Answer {
+  id       Int    @id @default(autoincrement())
+  response String
+
+  // Relation
+  loveLog    LoveLog  @relation(fields: [loveLogId], references: [id])
+  loveLogId  Int
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+}
+
+model Template {
+  id          Int      @id @default(autoincrement())
+  created     DateTime @default(now())
+  name        String
+  description String
+
+  // Relations
+  Question Question[]
+  LoveLog  LoveLog[]
+}
+
+model Question {
+  id         Int    @id @default(autoincrement())
+  text       String
+  text_short String
+
+  // Relations
+  template     Template       @relation(fields: [templateId], references: [id])
+  templateId   Int
+  Answer       Answer[]
+  QuestionHelp QuestionHelp[]
+}
+
+model QuestionHelp {
+  id   Int    @id @default(autoincrement())
+  text String
+
+  // Relations
+  question   Question @relation(fields: [questionId], references: [id]) // Corrected to questionId
+  questionId Int
+}
